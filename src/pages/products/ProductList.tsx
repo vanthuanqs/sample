@@ -1,20 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Product } from '../../types';
 import ProductTable from './components/ProductTable';
+import { fetchProducts } from './productsSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import Loading from './components/Loading';
+
 
 const ProductList = () => {
-  const [products, setProducts] = useState<Product[]>();
+  const dispatch = useAppDispatch();
+  const { products, isLoading, error } = useAppSelector((state) => state.products);
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
-    .then(res => res.json())
-    .then(json => setProducts(json))
-    .catch(err => {
-      console.error(err);
-      setProducts([]);
-    })
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!error) {
+    return <div className="my-20 mx-auto text-md text-red-600">Error: {error}</div>;
+  }
 
   return <div className="flex gap-10">
     <ProductTable

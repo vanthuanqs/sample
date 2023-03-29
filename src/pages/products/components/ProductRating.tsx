@@ -8,8 +8,8 @@ interface RatingProps extends ComponentProps<'span'> {
 const ProductRating = ({ rating, ...rest }: RatingProps) => {
   return (
     <span {...rest}>
-    {rating.rate}{' '}
-    ({rating.count} vote{rating.count > 1 ? 's' : ''})
+      {rating.rate}{' '}
+      ({rating.count} vote{rating.count > 1 ? 's' : ''})
   </span>
   );
 }

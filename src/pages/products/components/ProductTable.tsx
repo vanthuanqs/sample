@@ -1,3 +1,5 @@
+/* table css reference: https://tailwindcss.com/docs/table-layout */
+
 import { Product } from '../../../types';
 import { columns } from '../product-columns-definition';
 import { ComponentProps } from 'react';
@@ -19,8 +21,10 @@ const ProductTable = ({
             <table className="border-collapse table-auto w-full text-sm">
               <thead>
               <tr>
-                {columns.map((column) => (
-                  <th className="
+                {columns.map((column, index) => (
+                  <th
+                    key={index}
+                    className="
                       border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3
                       text-slate-400 dark:text-slate-200 text-left
                     ">
@@ -31,9 +35,11 @@ const ProductTable = ({
               </thead>
               <tbody className="bg-white dark:bg-slate-800">
               {(products || []).map((product) => (
-                <tr>
-                  {columns.map((column) => (
-                    <td className="border-b border-slate-100 dark:border-slate-700
+                <tr key={product.id}>
+                  {columns.map((column, index) => (
+                    <td
+                      key={index}
+                      className="border-b border-slate-100 dark:border-slate-700
                          p-4 pl-8 text-slate-500 dark:text-slate-400 cursor-pointer"
                     >{
                       column.formatter ?
