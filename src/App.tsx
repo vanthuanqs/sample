@@ -1,10 +1,15 @@
 import React from 'react';
+import Router from './routes';
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold text-center my-4 text-amber-500">
-      Tailwind
-    </h1>
+    <div className="container mx-auto mt-5">
+      <h1 className="text-3xl font-bold text-center mb-7 text-amber-500">
+        Sample CURD
+      </h1>
+
+      <Router />
+    </div>
   );
 }
 
