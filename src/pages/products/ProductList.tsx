@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import { Product } from '../../types';
-import ProductDetails from './components/ProductDetails';
 import ProductTable from './components/ProductTable';
 
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>();
-  const [selectedProduct, setSelectedProduct] = useState<Product>();
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -17,17 +16,14 @@ const ProductList = () => {
     })
   }, []);
 
-  return <div className="grid grid-cols-2 gap-10">
+  return <div className="flex gap-10">
     <ProductTable
       products={products}
-      onSelectProduct={setSelectedProduct}
+      className="w-2/3"
     />
-    <div>
-      <button
-        className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 cursor-pointer text-white rounded-full"
-        onClick={() => setSelectedProduct(undefined)}
-      >&times;</button>
-      <ProductDetails product={selectedProduct} />
+
+    <div className="w-1/3">
+      <Outlet />
     </div>
   </div>
 }

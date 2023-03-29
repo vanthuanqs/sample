@@ -1,24 +1,21 @@
 import { Product } from '../../../types';
 import { columns } from '../product-columns-definition';
-import { useCallback } from 'react';
+import { ComponentProps } from 'react';
 
-interface ProductTableProps {
+interface ProductTableProps extends ComponentProps<'div'> {
   products?: Product[],
-  onSelectProduct?: (product: Product) => void,
 }
 
-const ProductTable = ({ products, onSelectProduct }: ProductTableProps) => {
-  const handleSelectProduct = useCallback((product: Product) => {
-    if(onSelectProduct) {
-      onSelectProduct(product)
-    }
-  }, [onSelectProduct]);
-
-  return (
-    <div className="mt-4 -mb-3">
-      <div className="not-prose relative bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25">
+const ProductTable = ({
+  products,
+  className,
+  ...rest
+}: ProductTableProps) => {
+   return (
+    <div className={`mt-4 -mb-3 ${className}`} {...rest}>
+      <div className="relative bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25">
         <div className="relative rounded-xl overflow-auto">
-          <div className="shadow-sm my-8">
+          <div className="shadow-sm my-4">
             <table className="border-collapse table-auto w-full text-sm">
               <thead>
               <tr>
@@ -38,11 +35,10 @@ const ProductTable = ({ products, onSelectProduct }: ProductTableProps) => {
                   {columns.map((column) => (
                     <td className="border-b border-slate-100 dark:border-slate-700
                          p-4 pl-8 text-slate-500 dark:text-slate-400 cursor-pointer"
-                        onClick={() => handleSelectProduct(product)}
                     >{
                       column.formatter ?
                         column.formatter(product) :
-                        `${product[column.field]}`
+                        `${column.field ? product[column.field] : ''}`
                     }</td>
                   ))}
                 </tr>
